@@ -1,0 +1,6 @@
+./.auctex-auto/
+*.fls
+*.log
+*.out
+*.thm
+*.fdb_latexmk
