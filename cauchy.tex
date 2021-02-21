@@ -90,9 +90,9 @@ In particular, we want approximations that can be made \emph{arbitrarily precise
 
 
 \begin{example}[Approximating \(\sqrt 2\) via binary search]
-  Binary search is probably the simplest algorithm to approximate \(\sqrt 2\) with arbitrary precision. The idea is to repeatedly bisect an interval containing \(\sqrt 2\) in order to refine our estimate for \(\sqrt 2\).
+  Binary search is probably the simplest algorithm to approximate \(\sqrt 2\) with arbitrary precision. The idea is to repeatedly bisect an interval containing \(\sqrt 2\) in order to refine our estimate.
 
-  To begin, pick an interval \(I_{0}\) containing \(\sqrt 2\), so \(I_{0}=(0,2)\). For our initial estimate, \(x_{0}=1\), take the midpoint of \(I_{0}\). This cuts \(I_{0}\) into its left half, \(L_{0}=I_{0}\cap (-\infty,x_{0})\), and the right half \(R_{0}=I_{0}\cap (x_{0},\infty)\). Then
+  To begin, pick an interval \(I_{0}\) containing \(\sqrt 2\), so \(I_{0}=(0,2)\). For our initial estimate, take the midpoint of \(I_{0}\), so \(x_{0}=1\). This cuts \(I_{0}\) into its left half, \(L_{0}=I_{0}\cap (-\infty,x_{0})\), and the right half \(R_{0}=I_{0}\cap (x_{0},\infty)\). Then
   \[
     \length(L_{0})=\length(R_{0}) = \frac12 \length(I_{0}) = 1.
   \]
@@ -101,7 +101,7 @@ In particular, we want approximations that can be made \emph{arbitrarily precise
     E_{0}\define\dist(x_{0},\sqrt 2) \leq 1.
   \]
   \[
-    \begin{tikzpicture}[scale=4]
+    \begin{tikzpicture}[scale=5]
       \draw[color=graphblue] (0,-.1)node[below]{\(0\)} -- (0,0);
       \draw[color=graphblue] (1,-.1)node[below]{\(1\)} -- (1,0);
       \draw[color=graphblue] (2,-.1)node[below]{\(2\)} -- (2,0);
@@ -112,11 +112,11 @@ In particular, we want approximations that can be made \emph{arbitrarily precise
       \draw (1.5,-.12) node[below]{\(R_{0}\)};
     \end{tikzpicture}
   \]
-  Now check if we under or over--estimated. Because \({x_{0}}^{2}=(1)^{2}=1\) is less than \(2\), we underestimated; therefore, \(\sqrt 2 \in R_{0}\).
+  Now check if we under or over--estimated. Because \({x_{0}}^{2}=(1)^{2}=1\) is less than \(2\), \(x_{0}<\sqrt 2\); therefore, \(\sqrt 2 \in R_{0}\).
 
-  We can refine this estimate by picking \(I_{1}=R_{1}\) and repeating this process. Take \(x_{1}\) to be its midpoint, \(1.5\). Again, call the left half \(L_{1}=I_{1}\cap (-\infty,x_{1})\) and the right half \(R_{1}=I_{1}\cap (x_{1},\infty)\).
+  We can refine this estimate by picking \(I_{1}=R_{0}\) and repeating this process. Take \(x_{1}\) to be its midpoint, \(1.5\). Again, call the left half \(L_{1}=I_{1}\cap (-\infty,x_{1})\) and the right half \(R_{1}=I_{1}\cap (x_{1},\infty)\).
   \[
-    \begin{tikzpicture}[scale=4]
+    \begin{tikzpicture}[scale=5]
       \draw[color=graphblue] (0,-.1)node[below]{\(0\)} -- (0,0);
       \draw[color=graphblue] (1,-.1)node[below]{\(1\)} -- (1,0);
       \draw[color=graphblue] (2,-.1)node[below]{\(2\)} -- (2,0);
@@ -190,12 +190,10 @@ Certainly, a convergent sequence passes this test:
     \lim_{i\to\infty} \dist(x_{i},x_*) = \lim_{j\to\infty} \dist(x_{j},x_{*})=0,
   \]
   hence
-  \[
-    \lim_{i,j\to\infty} \dist(x_{i},x_{*})+\dist(x_{j},x_{*}) = 0,
-  \]
-  but
   \begin{alignat*}{3}
-    \dist(x_{i},x_{j}) &\leq &&\dist(x_{i},x_{*}) + \dist(x_{j},x_{*}) \\
+    &\lim_{i,j\to\infty}&&\dist(x_{i},x_{*})+\dist(x_{j},x_{*}) = 0, \\
+    \shortintertext{but}
+    \dist(x_{i},x_{j}) &\leq &&\dist(x_{i},x_{*}) + \dist(x_{j},x_{*}), \\
     \lim_{i,j\to \infty} \dist(x_{i},x_{j}) &\leq \lim_{i,j\to \infty} &&\dist(x_{i},x_{*})+\dist(x_{j},x_{*}) = 0
   \end{alignat*}
 \end{proof}
@@ -203,14 +201,14 @@ The converse is not always true. There are some Cauchy sequences that have no ra
 
 \begin{defn}[Bisection approximation to \colorbox{darkgray}{\color{white}{\fontspec{lmmonolt10-bold}{(\,REDACTED\,)}}}]
 
-  Let \(I_{0}\define(0,2)\) be the starting interval. Pick \(x_{n}\) to be the midpoint of \(I_{n}\) (in particular, \(x_{0}=1\)). Let \[H_{n}^{-}\define I_{n}\cap (0,x_{n})\] be the left half of \(I_{n}\) and
-  \[H_{n}^{+}\define I_{n}\cap (x_{n},2)\] be the right half.
+  Let \(I_{0}\define(0,2)\) be the starting interval. Pick \(x_{n}\) to be the midpoint of \(I_{n}\) (in particular, \(x_{0}=1\)). Let \[L_{n}\define I_{n}\cap (0,x_{n})\] be the left half of \(I_{n}\) and
+  \[R_{n}\define I_{n}\cap (x_{n},2)\] be the right half.
   Define \(I_{{n+1}}\) by \sout{choosing the half containing \(\sqrt 2\)}
   \[
     I_{{n+1}} \define
     \begin{cases}
-      H_{n}^{-}& \textrm{if } x_{n}^{2} < 2 \\
-      H_{n}^{+}& \textrm{if } x_{n}^{2} > 2
+      L_{n}& \textrm{if } {x_{n}}^{2} < 2 \\
+      R_{n}& \textrm{if } {x_{n}}^{2} > 2
     \end{cases}
   \]
   The sequence \(n \mapsto x_{n}\) this generates is the desired approximation.
@@ -219,7 +217,7 @@ The converse is not always true. There are some Cauchy sequences that have no ra
   The sequence \(n\mapsto x_{n}\) defined above satisfies \nameref{Cauchy's criterion}.
 \end{theorem}
 \begin{proof}
-  As \(H_{n}^{-}\) and \(H_{n}^{+}\) are each halves of \(I_{n}\), their lengths are each half the length of \(I_{n}\):
+  As \(L_{n}\) and \(R_{n}\) are each halves of \(I_{n}\), their lengths are each half the length of \(I_{n}\):
   \[
     \textrm{length}(I_{n+1}) = \frac 1 2 \textrm{length}(I_{n}).
   \]
@@ -248,10 +246,10 @@ The converse is not always true. There are some Cauchy sequences that have no ra
   Fix \(N\). For any \(i> N\), \(x_{i}\in I_{i} \subset I_{N}\). Therefore \(x_{*}\in I_{N}\). But \(N\) was arbitrary, so \(x_{*}\) has to be contained in \(I_{n}\) for all \(n\).
 
   Write \(I_{n} = (a_{n},b_{n})\). Then \(a_{n}< x_{*} < b_{n}\) and
-  \[a_{n}^{2} < x_{*}^{2} < b_{n}^{2}.\]
-  Because of how each \(I_{n}\) was chosen \sout{to contain \(\sqrt 2\)}, we are guaranteed that \(a_{n}^{2}< 2 < b_{n}^{2}\). Because the length of \(I_{n}\) approaches \(0\), we find that \(a_{n}-b_{n}\to 0\). Therefore \sout{\(x_{*}=\sqrt 2\)} \(\lim_{{n\to\infty}} a_{n}^{2}=\lim_{{n\to\infty}}b_{n}^{2} = 2\), forcing
+  \[{a_{n}}^{2} < {x_{*}}^{2} < {b_{n}}^{2}.\]
+  Because of how each \(I_{n}\) was chosen \sout{to contain \(\sqrt 2\)}, we are guaranteed that \({a_{n}}^{2}< 2 < {b_{n}}^{2}\). Because the length of \(I_{n}\) approaches \(0\), we find that \(a_{n}-b_{n}\to 0\). Therefore \sout{\(x_{*}=\sqrt 2\)} \(\lim_{{n\to\infty}} {a_{n}}^{2}=\lim_{{n\to\infty}}{b_{n}}^{2} = 2\), forcing
   \[
-    x_{*}^{2} = 2.
+    {x_{*}}^{2} = 2.
   \]
   There is no such rational number.
 \end{proof}
