@@ -10,17 +10,17 @@
 
 \begin{document}
 
-\title{Constructing $\R$ via Cauchy completion}
+\title{Constructing \(\R\) via Cauchy completion}
 \author{Riley Levy}
 \maketitle{}
 This document details how to define the set of real numbers via rational approximations.
 \section{Notation}
 \begin{itemize}
-  \item $\define$ means defined to be.
-  \item \(\N\) is the set of natural numbers $\{0,1,2,\dots\}$.
+  \item \(\define\) means defined to be.
+  \item \(\N\) is the set of natural numbers \(\{0,1,2,\dots\}\).
   \item \(\Q\) is the rational numbers (quotient).
   \item \(\R\) is the real numbers.
-  \item $\dist(x,y)=\abs{x-y}$ is the distance between the points $x$ and $y$.
+  \item \(\dist(x,y)=\abs{x-y}\) is the distance between the points \(x\) and \(y\).
   \item \(\Q^{\N}\) is the set of sequences of rational numbers
   \item \(\Q^{\N}_{C}\) is the set of rational sequences satisfying \nameref{Cauchy's criterion}
   \item \(\R^{\N}\) is the set of sequences of real numbers
@@ -42,11 +42,11 @@ Even in pragmatic mathematics, we're forced to accept irrational numbers as soon
 \end{tikzpicture}
 \]
 
-The irrationality of $\sqrt 2$ would have been understood geometrically at the time, but a modern algebraic proof goes like this:
+The irrationality of \(\sqrt 2\) would have been understood geometrically at the time, but a modern algebraic proof goes like this:
 \begin{theorem}\(\sqrt 2\) is irrational
 \end{theorem}
 \begin{proof}
-  Suppose it is rational. Then there is some fraction $a/b$ in simplest form where $a,b$ are integers, $b\neq 0$, and
+  Suppose it is rational. Then there is some fraction \(a/b\) in simplest form where \(a,b\) are integers, \(b\neq 0\), and
   \[
     \paren{\frac a b}^{2}=2.
   \]
@@ -55,61 +55,62 @@ The irrationality of $\sqrt 2$ would have been understood geometrically at the t
     \frac{a^{2}}{b^{2}} &= 2 \\
     a^{2}&= 2 b^{2}.
   \end{align*}
-  Therefore, $a$ is even. Substitute $a=2k$. Then
+  Therefore, \(a\) is even. Substitute \(a=2k\). Then
   \begin{align}
     (2k)^{2} &=2 b^{2}. \\
                       \shortintertext{But,}
     4k^{2} &= 2b^{2}, \\
     2k^{2} &= b^{2},
   \end{align}
-  proving $b$ is even too. This contradicts the assumption that $a/b$ was in simplest form.
+  proving \(b\) is even too. This contradicts the assumption that \(a/b\) was in simplest form.
 \end{proof}
 
 \subsection{What do now?}
-How can we work with an irrational number? Relating it back to rational numbers is promising. There are multiple ways to do this. In fact, we defined $\sqrt 2$ by relating it to $2$ algebraically: $(\sqrt 2)^2 = 2$. But for this article, an algebraic relationship is of limited use. There is an ambiguity: $(\sqrt 2)^{2} = (-\sqrt 2)^{2} = 2$, so which one did we want?
+How can we work with an irrational number? Relating it back to rational numbers is promising. There are multiple ways to do this. In fact, we defined \(\sqrt 2\) by relating it to \(2\) algebraically: \((\sqrt 2)^2 = 2\). But for this article, an algebraic relationship is of limited use. There is an ambiguity: \((\sqrt 2)^{2} = (-\sqrt 2)^{2} = 2\), so which one did we want?
 
-More damning is the existence of \emph{transcendental numbers}, irrational numbers that are not the solution to any algebraic equation that can be spelled using only rational numbers. The most famous of these are $\pi$ and $e$. Instead, let's look at \emph{rational approximations}.
+More damning is the existence of \emph{transcendental numbers}, irrational numbers that are not the solution to any algebraic equation that can be spelled using only rational numbers. The most famous of these are \(\pi\) and \(e\). Instead, let's look at \emph{rational approximations}.
 
-The simplest algorithm to approximate $\sqrt 2$ is binary search. We know $0 < \sqrt 2 < 2$. Its midpoint, $1$ is a rough estimate of $\sqrt 2$. Call it $x_{0}$. Without any further computation, we know $\sqrt 2$ will lie on either side of $x_{0}=1$. Therefore our error is at most $1$:
+The simplest algorithm to approximate \(\sqrt 2\) is binary search. We know \(0 < \sqrt 2 < 2\). Its midpoint, \(1\) is a rough estimate of \(\sqrt 2\). Call it \(x_{0}\). Without any further computation, we know \(\sqrt 2\) will lie on either side of \(x_{0}=1\). Therefore our error is at most \(1\):
 \[
   E_{0}=\dist(x_{0},\sqrt 2) \leq 1.
 \]
 
 
-As $x_{0}^{2}=1^{2}=1 < 2$, this underestimated $\sqrt 2$.  Now we know $\sqrt 2$ lies in the interval $(1,2)$. Taking its midpoint $x_{1}=1.5$ gives an improved estimate. Similarly, because $\sqrt 2$ must lie in either half of the interval $(1,2)$, our new estimate has error at most $.5$:
+As \({x_{0}}^{2}=1^{2}=1 < 2\), this underestimated \(\sqrt 2\).  Now we know \(\sqrt 2\) lies in the interval \((1,2)\). Taking its midpoint \(x_{1}=1.5\) gives an improved estimate. Similarly, because \(\sqrt 2\) must lie in either half of the interval \((1,2)\), our new estimate has error at most \(.5\):
 \[
   E_{1} = \dist(x_{1},\sqrt 2) = \abs{x_{1} - \sqrt 2} \leq .5.
 \]
 
-Checking $x_{1}^{2}=(1.5)^{2} = 2.25 > 2$ shows we overestimated. Now we know $\sqrt 2$ lies in the interval $(1, 1.5)$ and we can repeat the process: $x_{2} = 1.25$. The error for this new estimate is no more than a quarter:
+Checking \({x_{1}}^{2}=(1.5)^{2} = 2.25 > 2\) shows we overestimated. Now we know \(\sqrt 2\) lies in the interval \((1, 1.5)\) and we can repeat the process: \(x_{2} = 1.25\). The error for this new estimate is no more than a quarter:
 \[
   E_{2} = \dist(x_{2},\sqrt 2) = \abs{x_{2}-\sqrt 2} \leq .25
 \]
-This time, we underestimated, so $\sqrt 2$  lies between $(x_{2},x_{1})=(1.25,1.5)$.
+This time, we underestimated, so \(\sqrt 2\)  lies between \((x_{2},x_{1})=(1.25,1.5)\).
 
 Each iteration cuts this upper bound on error in half:
 \[
   E_{n} = \abs{x_{n}-\sqrt{2}} \leq \frac{1}{2^{n}}.
 \]
-With enough iterations, binary search will approximate $\sqrt 2$ arbitrarily well. Indeed,
+With enough iterations, binary search will approximate \(\sqrt 2\) arbitrarily well. Indeed,
 \[
   \lim_{{n\to\infty}} E_{n} = \lim_{n\to\infty} \abs{x_{n}-\sqrt 2} \leq \lim_{{n\to\infty}} \frac{1}{2^{n}} = 0.
 \]
 
-Generalizing this kind of argument leads to a formal definition for the set of real numbers. However, we must take care to avoid circular reasoning. So far, we found this approximation by assuming that some number called $\sqrt 2$ exists, is well-defined, and works the way we would expect a number to. We can probably save this specific approximation using the fact that $\sqrt 2$ solves the equation $x^{2}=2$. But this will not generalize.
+Generalizing this kind of argument leads to a formal definition for the set of real numbers. However, we must take care to avoid circular reasoning. So far, we found this approximation by assuming that some number called \(\sqrt 2\) exists, is well-defined, and works the way we would expect a number to. We can probably patch up this specific approximation in an ad-hoc way, using additional facts about \(\sqrt 2\). But this will not generalize.
 
 \section{Avoiding circularity via Cauchy's criterion}
 Our goal is to define a real number as something we can approximate using rational numbers. But how can you tell if you are correctly approximating something that hasn't been defined yet?
-Without knowing what $\sqrt 2$ is, how can we make sense of $\abs[]{x_{n}-\sqrt 2}$?
+Without knowing what \(\sqrt 2\) is, how can we make sense of \(\abs[]{x_{n}-\sqrt 2}\)?
 
-We need a way to tell if a sequence of rational numbers looks enough like an approximation that we can work with it, without needing to know how to take its limit (or even if its limit exists). That is the purpose of the following test:
+We need to know if a sequence of rational numbers looks like an approximation but without needing to know how to take its limit (or even if its limit exists). That is the purpose of the following test:
 \begin{defn}[Cauchy's criterion]\label{Cauchy's criterion}
-  A sequence $x_{n}$ satisfies Cauchy's criterion (``is Cauchy'') when its elements eventually become arbitrarily close:
+  A sequence \(x_{n}\) satisfies Cauchy's criterion (``is Cauchy'') when its elements eventually become arbitrarily close:
   \[
     \lim_{i,j\to\infty} d(x_{i},x_{j})=\lim_{i,j\to \infty} \abs{x_{i}-x_{j}} =0
   \]
 \end{defn}
 
+Certainly, a convergent sequence passes this test:
 \begin{theorem}
   Every convergent sequence satisfies \nameref{Cauchy's criterion}.
 \end{theorem}
@@ -120,7 +121,7 @@ We need a way to tell if a sequence of rational numbers looks enough like an app
     \abs{x-z}&\leq \abs{x-y}&&+\abs{y-z}.
   \end{alignat*}
 
-  Suppose the sequence $x_{\blank}$ has limit $x_{*}$. Then
+  Suppose the sequence \(x_{\blank}\) has limit \(x_{*}\). Then
   \[
     \lim_{i\to\infty} \dist(x_{i},x_*) = \lim_{j\to\infty} \dist(x_{j},x_{*})=0,
   \]
@@ -134,13 +135,13 @@ We need a way to tell if a sequence of rational numbers looks enough like an app
     \lim_{i,j\to \infty} \dist(x_{i},x_{j}) &\leq \lim_{i,j\to \infty} &&\dist(x_{i},x_{*})+\dist(x_{j},x_{*}) = 0
   \end{alignat*}
 \end{proof}
-The converse is not always true. There are some Cauchy sequences that have no rational limit. The bisection approximation of $\sqrt 2$ is one such sequence is an example. I would love to tell you it is Cauchy because it converges---to $\sqrt 2$. But that is circular reasoning. Instead, I will carefully redefine it and prove it is Cauchy.
+The converse is not always true. There are some Cauchy sequences that have no rational limit. The bisection approximation of \(\sqrt 2\) is one such sequence is an example. I would love to tell you it is Cauchy because it converges---to \(\sqrt 2\). But that is circular reasoning. Instead, I will carefully redefine it and prove it is Cauchy.
 
 \begin{defn}[Bisection approximation to \colorbox{darkgray}{\color{white}{\fontspec{lmmonolt10-bold}{(\,REDACTED\,)}}}]
 
-  Let $I_{0}\define(0,2)$ be the starting interval. Pick $x_{n}$ to be the midpoint of $I_{n}$ (in particular, $x_{0}=1$). Let \[H_{n}^{-}\define I_{n}\cap (0,x_{n})\] be the left half of $I_{n}$ and
+  Let \(I_{0}\define(0,2)\) be the starting interval. Pick \(x_{n}\) to be the midpoint of \(I_{n}\) (in particular, \(x_{0}=1\)). Let \[H_{n}^{-}\define I_{n}\cap (0,x_{n})\] be the left half of \(I_{n}\) and
   \[H_{n}^{+}\define I_{n}\cap (x_{n},2)\] be the right half.
-  Define $I_{{n+1}}$ by \sout{choosing the half containing $\sqrt 2$}
+  Define \(I_{{n+1}}\) by \sout{choosing the half containing \(\sqrt 2\)}
   \[
     I_{{n+1}} \define
     \begin{cases}
@@ -148,20 +149,20 @@ The converse is not always true. There are some Cauchy sequences that have no ra
       H_{n}^{+}& \textrm{if } x_{n}^{2} > 2
     \end{cases}
   \]
-  The sequence $n \mapsto x_{n}$ this generates is the desired approximation.
+  The sequence \(n \mapsto x_{n}\) this generates is the desired approximation.
 \end{defn}
 \begin{theorem}
-  The sequence $n\mapsto x_{n}$ defined above satisfies \nameref{Cauchy's criterion}.
+  The sequence \(n\mapsto x_{n}\) defined above satisfies \nameref{Cauchy's criterion}.
 \end{theorem}
 \begin{proof}
-  As $H_{n}^{-}$ and $H_{n}^{+}$ are each halves of $I_{n}$, their lengths are each half the length of $I_{n}$:
+  As \(H_{n}^{-}\) and \(H_{n}^{+}\) are each halves of \(I_{n}\), their lengths are each half the length of \(I_{n}\):
   \[
     \textrm{length}(I_{n+1}) = \frac 1 2 \textrm{length}(I_{n}).
   \]
   By induction, \[
     \textrm{length}(I_{n}) = \frac{2}{2^{n}}.
   \]
-  By construction, whenever $i,j > n$ both $x_{i}$ and $x_{j}$ are contained in $I_{n}$; therefore,
+  By construction, whenever \(i,j > n\) both \(x_{i}\) and \(x_{j}\) are contained in \(I_{n}\); therefore,
   \[
     \dist(x_{i},x_{j}) \leq \textrm{length}(I_{n}) = \frac{2}{2^{n}}
   \]
@@ -173,40 +174,40 @@ The converse is not always true. There are some Cauchy sequences that have no ra
 \end{proof}
 
 \begin{theorem}
-  The sequence $n\mapsto x_{n}$ has no limit within the set of rational numbers.
+  The sequence \(n\mapsto x_{n}\) has no limit within the set of rational numbers.
 \end{theorem}
 \begin{proof}
-  Observe that the intervals $I_{\blank}$ are nested:
+  Observe that the intervals \(I_{\blank}\) are nested:
   \[
     I_{0} \supset I_{1} \supset I_{2} \supset \dots I_{n} \supset I_{n+1} \supset \dots
   \]
-  Fix $N$. For any $i> N$, $x_{i}\in I_{i} \subset I_{N}$. Therefore $x_{*}\in I_{N}$. But $N$ was arbitrary, so $x_{*}$ has to be contained in $I_{n}$ for all $n$.
+  Fix \(N\). For any \(i> N\), \(x_{i}\in I_{i} \subset I_{N}\). Therefore \(x_{*}\in I_{N}\). But \(N\) was arbitrary, so \(x_{*}\) has to be contained in \(I_{n}\) for all \(n\).
 
-  Write $I_{n} = (a_{n},b_{n})$. Then $a_{n}< x_{*} < b_{n}$ and
+  Write \(I_{n} = (a_{n},b_{n})\). Then \(a_{n}< x_{*} < b_{n}\) and
   \[a_{n}^{2} < x_{*}^{2} < b_{n}^{2}.\]
-  Because of how each $I_{n}$ was chosen \sout{to contain $\sqrt 2$}, we are guaranteed that \(a_{n}^{2}< 2 < b_{n}^{2}\). Because the length of $I_{n}$ approaches $0$, we find that $a_{n}-b_{n}\to 0$. Therefore \sout{\(x_{*}=\sqrt 2\)} $\lim_{{n\to\infty}} a_{n}^{2}=\lim_{{n\to\infty}}b_{n}^{2} = 2$, forcing
+  Because of how each \(I_{n}\) was chosen \sout{to contain \(\sqrt 2\)}, we are guaranteed that \(a_{n}^{2}< 2 < b_{n}^{2}\). Because the length of \(I_{n}\) approaches \(0\), we find that \(a_{n}-b_{n}\to 0\). Therefore \sout{\(x_{*}=\sqrt 2\)} \(\lim_{{n\to\infty}} a_{n}^{2}=\lim_{{n\to\infty}}b_{n}^{2} = 2\), forcing
   \[
     x_{*}^{2} = 2.
   \]
   There is no such rational number.
 \end{proof}
 
-\section{Constructing $\R$ via equivalence classes of Cauchy sequences}
+\section{Constructing \(\R\) via equivalence classes of Cauchy sequences}
 Multiple sequences can approximate the same number. We need a way to check this that avoids circular reasoning, again without direct reference to the sequences' limit.
-\begin{defn}[$\approx$]\label{cauchy-eq}
-  We say $\paren{n\mapsto x_{n}}\approx\paren{n\mapsto  y_{n}}$ (or briefly $x_{n}\approx y_{n}$) whenever
+\begin{defn}[\(\approx\)]\label{cauchy-eq}
+  We say \(\paren{n\mapsto x_{n}}\approx\paren{n\mapsto  y_{n}}\) (or briefly \(x_{n}\approx y_{n}\)) whenever
   \[
     \lim_{{n\to\infty}} \dist(x_{n},y_{n}) = 0.
   \]
 \end{defn}
 
-The goal is to use $\approx$ to collect together equivalent approximations into buckets. These buckets will become our construction of the real numbers. But how do we know they will split cleanly? The necessary property is that $\approx$ be an \emph{equivalence relation}.
+The goal is to use \(\approx\) to collect together equivalent approximations into buckets. These buckets will become our construction of the real numbers. But how do we know they will split cleanly? The necessary property is that \(\approx\) be an \emph{equivalence relation}.
 \begin{defn}[Equivalence relation]
-  An equivalence relation $\sim$ must satisfy:
+  An equivalence relation \(\sim\) must satisfy:
   \begin{enumerate}
-    \item reflexivity: $x\sim x$,
-    \item symmetry: $x\sim y$ is equivalent to $y\sim x$,
-    \item transitivity: if $x\sim y$ and $y \sim z$ then $x\sim z$.
+    \item reflexivity: \(x\sim x\),
+    \item symmetry: \(x\sim y\) is equivalent to \(y\sim x\),
+    \item transitivity: if \(x\sim y\) and \(y \sim z\) then \(x\sim z\).
   \end{enumerate}
 \end{defn}
 \begin{theorem}
@@ -215,11 +216,11 @@ The goal is to use $\approx$ to collect together equivalent approximations into 
 \begin{proof}
   \phantom{M}
   \begin{enumerate}
-    \item Reflexivity follows from noting $\dist(x,x)=0$. Therefore, if $n \mapsto x_{n}$ is a Cauchy sequence, $\dist(x_{n},x_{n})=0$.
+    \item Reflexivity follows from noting \(\dist(x,x)=0\). Therefore, if \(n \mapsto x_{n}\) is a Cauchy sequence, \(\dist(x_{n},x_{n})=0\).
 
-    \item Symmetry follows from observing $\dist$ is symmetric: $\dist(x,y)=\dist(y,x)$.
+    \item Symmetry follows from observing \(\dist\) is symmetric: \(\dist(x,y)=\dist(y,x)\).
     \item Transitivity is a consequence of the triangle inequality.
-          If $x_{n}\approx y_{n}$, then $\dist(x_{n},y_{n})\to 0$. If $y_{n}\approx z_{n}$, then $\dist(y_{n},z_{n})\to 0$. Therefore
+          If \(x_{n}\approx y_{n}\), then \(\dist(x_{n},y_{n})\to 0\). If \(y_{n}\approx z_{n}\), then \(\dist(y_{n},z_{n})\to 0\). Therefore
           \[
           \dist(x_{n},z_{n}) \leq \dist(x_{n},y_{n}) + \dist(y_{n},z_{n}) \to 0.
           \]
@@ -227,11 +228,11 @@ The goal is to use $\approx$ to collect together equivalent approximations into 
 \end{proof}
 Now for the buckets:
 \begin{defn}[Equivalence class]
-  If $n\mapsto x_{n}$ is a cauchy sequence, define its \emph{equivalence class}
+  If \(n\mapsto x_{n}\) is a cauchy sequence, define its \emph{equivalence class}
   \[
     \bracket{n\mapsto x_{n}} \define \set[\big]{n\mapsto y_{n}: \paren{n\mapsto x_{n}}\approx \paren{n\mapsto y_{n}}}.
   \]
-  The set of all such equivalence classes is written $\Q^{\N}_{C}/\approx$.
+  The set of all such equivalence classes is written \(\Q^{\N}_{C}/\approx\).
 \end{defn}
 
 We can finally construct the reals!
@@ -240,47 +241,47 @@ We can finally construct the reals!
   \[\R \define \Q^\N_{C}/\approx.\]
 \end{defn}
 
-We would like to think of the real numbers as containing the rational numbers, so we need to find a copy of $\Q$ in $\R$.
+We would like to think of the real numbers as containing the rational numbers, so we need to find a copy of \(\Q\) in \(\R\).
 \begin{defn}
-  Let $i: \Q \to \R$ via $i(q) = \bracket{\,\_{} \mapsto q}$, the sequence that is constantly $q$.
+  Let \(i: \Q \to \R\) via \(i(q) = \bracket{\,\_{} \mapsto q}\), the sequence that is constantly \(q\).
 \end{defn}
 
-The basic operations $+,\times,-,\div,\abs{\cdot}$ extend to $\R$ similarly:
+The basic operations \(+,\times,-,\div,\abs{\cdot}\) extend to \(\R\) similarly:
 \[
   \bracket{n\mapsto x_{n}} + \bracket{n\mapsto y_{n}} \define \bracket{n\mapsto x_{n}+y_{n}}.
 \]
 \begin{theorem}
-  The function $i: \Q \mapsto \R$ is an \emph{isometry} (preserves distance).
+  The function \(i: \Q \mapsto \R\) is an \emph{isometry} (preserves distance).
 \end{theorem}
 \begin{proof}
-  Consider rational numbers $x$ and $y$. Then
+  Consider rational numbers \(x\) and \(y\). Then
   \[
     \dist\paren[\Big]{i(x),i(y)} = \abs[\Big]{\bracket{\,\_{}\mapsto x}- \bracket{\,\_{}\mapsto y}} = \bracket[\Big]{\,\_{}\mapsto \abs{x-y}} = i\paren[\Big]{\dist(x,y)}
   \]
 \end{proof}
 
-Now we can define $\sqrt 2$ by the equivalence class $\bracket{n\mapsto x_{n}}$ of the sequence $n\mapsto x_{n}$ found by bisection. We would expect in some sense
+Now we can define \(\sqrt 2\) by the equivalence class \(\bracket{n\mapsto x_{n}}\) of the sequence \(n\mapsto x_{n}\) found by bisection. We would expect in some sense
 \[
   \lim_{{n\to\infty}}x_{n} = \sqrt 2.
 \]
-We can state this more precisely using $i:\Q\to\R$ as
+We can state this more precisely using \(i:\Q\to\R\) as
 \[
   \lim_{n\to\infty}i(x_{n}) = \sqrt 2.
 \]
-In general we expect
+We intuitively interpret the construction of \(\R\) as representing a real number \(r\) by the rational approximations \emph{that converge to \(r\)}. However, until now we haven't formally investigated the convergence of these sequences. The following theorem establishes a formalized version of this intuition as fact.
 \begin{theorem}
-  If $n\mapsto x_{n} \in \R=\Q^{\N}_{C}$, then
+  If \(n\mapsto x_{n} \in \R=\Q^{\N}_{C}\), then
   \[
     \lim_{n\to\infty} i(x_{n}) = \bracket{n\mapsto x_{n}},
   \]
-  \ie{} Cauchy sequences converge to the real number they represent.
+  \ie{} rational Cauchy sequences converge (in \(\R\)) to the real number they represent.
 \end{theorem}
 \begin{proof}
-  Let $x_{*}=\bracket{n\mapsto x_{n}}$. It suffices to show
+  Let \(x_{*}=\bracket{n\mapsto x_{n}}\). It suffices to show
   \[
     \lim_{k\to\infty} x_{*}-i(x_{k}) = 0.
   \]
-  Note that the $0$ in the right hand side is the \emph{real number} 0, \ie{}
+  Note that the \(0\) in the right hand side is the \emph{real number} \(0\), \ie{}
   \(
     \bracket{\,\_{}\mapsto 0}.
   \)
@@ -300,12 +301,43 @@ In general we expect
   \[
     \lim_{n\to\infty}\lim_{k\to\infty} x_{n}-x_{k} =0
   \]
-  by hypothesis that $n\mapsto x_{n}$ is Cauchy.
+  by hypothesis that \(n\mapsto x_{n}\) is Cauchy.
 \end{proof}
 \begin{theorem}
   Every Cauchy sequence of real numbers converges to a real number.
 \end{theorem}
 \begin{proof}
-  This follows by a diagonal argument. (To be continued)
+  Suppose there is an \(n\mapsto x^{(n)}\in \R^{\N}_{C}\). Each \(x^{(n)}\in \R\) so it is represented by some rational cauchy sequence
+  \[
+    x^{(n)} = \bracket{m\mapsto x^{(n)}_{m}}.
+  \]
+  Suppose there is an \(n\mapsto x^{(n)}\in \R^{\N}_{C}\). Each \(x^{(n)}\in \R\) so it is represented by some rational cauchy sequence
+  \[
+    x^{(n)} = \bracket{m\mapsto x^{(n)}_{m}}.
+  \]
+  Consider the diagonal sequence
+  \[
+    D\define m\mapsto x^{(m)}_{m}.
+  \]
+  It suffices to show that
+  \[
+    \lim_{n\to\infty}x^{(n)} - \bracket{D} = 0,
+  \]
+  or
+  \[
+    \lim_{m\to\infty}\lim_{n\to\infty} x^{(n)}_{m}-x^{(m)}_{m} = 0.
+  \]
+
+
+  % By hypothesis, \(x^{(n)}\) is Cauchy, so
+  % \[
+  %   \lim_{i,j\to\infty} x^{(i)}-x^{(j)} = \lim_{i,j\to\infty} \bracket{m\mapsto x^{(i)}_{m}-x^{(j)}_{m}} =0.
+  % \]
+  % In particular, \(\lim_{{i,j}\to\infty} x_{m}^{(i)}-x_{m}^{(j)}\approx 0\) implies
+  % \[
+  %   \lim_{m\to\infty} \lim_{{i,j\to\infty}} x_{m}^{(i)}-x_{m}^{(j)} =0
+  % \]
+  ???
+
 \end{proof}
 \end{document}
