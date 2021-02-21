@@ -4,9 +4,16 @@
 \usepackage{riley-libertine}
 \usepackage{riley-euler}
 
+
+\let\oldepsilon\epsilon
+\def\epsilon{\varepsilon}
+
 \usepackage[normalem]{ulem}
 \usepackage{tikz}
 \newcommand{\dist}{d}
+\newcommand{\length}{\mathrm{length}}
+
+\definecolor{graphblue}{rgb}{.4,.4,1}
 
 \begin{document}
 
@@ -68,33 +75,90 @@ The irrationality of \(\sqrt 2\) would have been understood geometrically at the
 \subsection{What do now?}
 How can we work with an irrational number? Relating it back to rational numbers is promising. There are multiple ways to do this. In fact, we defined \(\sqrt 2\) by relating it to \(2\) algebraically: \((\sqrt 2)^2 = 2\). But for this article, an algebraic relationship is of limited use. There is an ambiguity: \((\sqrt 2)^{2} = (-\sqrt 2)^{2} = 2\), so which one did we want?
 
-More damning is the existence of \emph{transcendental numbers}, irrational numbers that are not the solution to any algebraic equation that can be spelled using only rational numbers. The most famous of these are \(\pi\) and \(e\). Instead, let's look at \emph{rational approximations}.
+More damning is the existence of \emph{transcendental numbers}, irrational numbers that are not the solution to any algebraic equation we can spelled using rational numbers, the most famous of which are \(\pi\) and \(e\). Instead, consider \emph{rational approximations}.
+In particular, we want approximations that can be made \emph{arbitrarily precise}.
+\begin{defn}
+  If $x_{n}$ is a sequence approximating $x_{*}$, it can be made arbitrarily precise when, for any desired error tolerance $\epsilon > 0$, there is some large enough $N_{\epsilon}$ that once $n> N_{\epsilon}$, the sequence is within the desired tolerance:
+  \[
+    n>N_{\epsilon}\implies\dist(x_{n},x_{*}) < \epsilon.
+  \]
+  Write this
+  \[
+    \lim_{n\to\infty} x_{n} = x_{*}.
+  \]
+\end{defn}
 
-The simplest algorithm to approximate \(\sqrt 2\) is binary search. We know \(0 < \sqrt 2 < 2\). Its midpoint, \(1\) is a rough estimate of \(\sqrt 2\). Call it \(x_{0}\). Without any further computation, we know \(\sqrt 2\) will lie on either side of \(x_{0}=1\). Therefore our error is at most \(1\):
-\[
-  E_{0}=\dist(x_{0},\sqrt 2) \leq 1.
-\]
 
+\begin{example}[Approximating \(\sqrt 2\) via binary search]
+  Binary search is probably the simplest algorithm to approximate \(\sqrt 2\) with arbitrary precision. The idea is to repeatedly bisect an interval containing \(\sqrt 2\) in order to refine our estimate for \(\sqrt 2\).
 
-As \({x_{0}}^{2}=1^{2}=1 < 2\), this underestimated \(\sqrt 2\).  Now we know \(\sqrt 2\) lies in the interval \((1,2)\). Taking its midpoint \(x_{1}=1.5\) gives an improved estimate. Similarly, because \(\sqrt 2\) must lie in either half of the interval \((1,2)\), our new estimate has error at most \(.5\):
-\[
-  E_{1} = \dist(x_{1},\sqrt 2) = \abs{x_{1} - \sqrt 2} \leq .5.
-\]
+  To begin, pick an interval \(I_{0}\) containing \(\sqrt 2\), so \(I_{0}=(0,2)\). For our initial estimate, \(x_{0}=1\), take the midpoint of \(I_{0}\). This cuts \(I_{0}\) into its left half, \(L_{0}=I_{0}\cap (-\infty,x_{0})\), and the right half \(R_{0}=I_{0}\cap (x_{0},\infty)\). Then
+  \[
+    \length(L_{0})=\length(R_{0}) = \frac12 \length(I_{0}) = 1.
+  \]
+  Observing that \(\sqrt 2\) must lie in one of these halves leads to an error bound:
+  \[
+    E_{0}\define\dist(x_{0},\sqrt 2) \leq 1.
+  \]
+  \[
+    \begin{tikzpicture}[scale=4]
+      \draw[color=graphblue] (0,-.1)node[below]{\(0\)} -- (0,0);
+      \draw[color=graphblue] (1,-.1)node[below]{\(1\)} -- (1,0);
+      \draw[color=graphblue] (2,-.1)node[below]{\(2\)} -- (2,0);
+      \draw (0,0) -- (2,0);
+      \fill (1,0)  circle(.5pt) node[above]{\(x_{0}\)};
+      \fill (1.414,0)  circle(.5pt) node[below]{\(\sqrt2\)};
+      \draw (.5,-.12) node[below]{\(L_{0}\)};
+      \draw (1.5,-.12) node[below]{\(R_{0}\)};
+    \end{tikzpicture}
+  \]
+  Now check if we under or over--estimated. Because \({x_{0}}^{2}=(1)^{2}=1\) is less than \(2\), we underestimated; therefore, \(\sqrt 2 \in R_{0}\).
 
-Checking \({x_{1}}^{2}=(1.5)^{2} = 2.25 > 2\) shows we overestimated. Now we know \(\sqrt 2\) lies in the interval \((1, 1.5)\) and we can repeat the process: \(x_{2} = 1.25\). The error for this new estimate is no more than a quarter:
-\[
-  E_{2} = \dist(x_{2},\sqrt 2) = \abs{x_{2}-\sqrt 2} \leq .25
-\]
-This time, we underestimated, so \(\sqrt 2\)  lies between \((x_{2},x_{1})=(1.25,1.5)\).
+  We can refine this estimate by picking \(I_{1}=R_{1}\) and repeating this process. Take \(x_{1}\) to be its midpoint, \(1.5\). Again, call the left half \(L_{1}=I_{1}\cap (-\infty,x_{1})\) and the right half \(R_{1}=I_{1}\cap (x_{1},\infty)\).
+  \[
+    \begin{tikzpicture}[scale=4]
+      \draw[color=graphblue] (0,-.1)node[below]{\(0\)} -- (0,0);
+      \draw[color=graphblue] (1,-.1)node[below]{\(1\)} -- (1,0);
+      \draw[color=graphblue] (2,-.1)node[below]{\(2\)} -- (2,0);
+      \draw (0,0) -- (2,0);
+      \fill (1,0)  circle(.5pt) node[above]{\(x_{0}\)};
+      \fill (1.5,0)  circle(.5pt) node[above]{\(x_{1}\)};
+      \fill (1.414,0)  circle(.5pt) node[below]{\(\sqrt2\)};
+    \end{tikzpicture}
+  \]
+  The same argument will also give new error bounds. Observe
+  \[
+    \length( L_{1} ) = \length( R_{1} ) = \frac 1 2 \length( I_{1} ) = \frac{1}{2}.
+  \]
+  Because \(\sqrt 2\) must lie in one of these halves, we get the error bound
+  \[
+    E_{1} \define \dist(x_{1},\sqrt 2) \leq \frac 1 2.
+  \]
+  Checking \({x_{1}}^{2}=2.25 > 2\) shows this time we overestimated, so \(\sqrt 2 \in I_{2}\define L_{0}\).
 
-Each iteration cuts this upper bound on error in half:
-\[
-  E_{n} = \abs{x_{n}-\sqrt{2}} \leq \frac{1}{2^{n}}.
-\]
-With enough iterations, binary search will approximate \(\sqrt 2\) arbitrarily well. Indeed,
-\[
-  \lim_{{n\to\infty}} E_{n} = \lim_{n\to\infty} \abs{x_{n}-\sqrt 2} \leq \lim_{{n\to\infty}} \frac{1}{2^{n}} = 0.
-\]
+  In general, given \(I_{n}\), pick \(x_{n}\) to be its midpoint. Let \(L_{n}=I_{n} \cap (-\infty, x_{n})\) be the left half and \(R_{n}=I_{n}\cap (x_{n},\infty)\) be the right half. The lengths of these halves gives an error bound:
+  \[
+    E_{n} \define \dist(x_{n},\sqrt 2) \leq \length(L_{n}) = \length(R_{n}) = \frac12 I_{n}.
+  \]
+  Induction on $n$ gives
+  \begin{equation}
+    E_{n} \leq \frac{1}{2^{n}}.\label{eq:binary search error bound}
+  \end{equation}
+  Setting
+  \[
+    I_{n+1} =
+    \begin{cases}
+      L_{n}& \textrm{if } {x_{n}}^{2} > 2\\
+      R_{n}& \textrm{if } {x_{n}}^{2} < 2
+    \end{cases}
+  \]
+  sets us up for the next iteration.
+
+  \Cref{eq:binary search error bound} is particularly interesting because it shows error can be made arbitrarily small:
+  \[
+    \lim_{n\to\infty} E_{n} \leq \lim_{n\to\infty}\frac{1}{2^{n}} =0.
+  \]
+\end{example}
 
 Generalizing this kind of argument leads to a formal definition for the set of real numbers. However, we must take care to avoid circular reasoning. So far, we found this approximation by assuming that some number called \(\sqrt 2\) exists, is well-defined, and works the way we would expect a number to. We can probably patch up this specific approximation in an ad-hoc way, using additional facts about \(\sqrt 2\). But this will not generalize.
 
