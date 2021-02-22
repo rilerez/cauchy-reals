@@ -233,9 +233,11 @@ We will need this tool to prove it:
     \lim_{i,j\to \infty} \dist(x_{i},x_{j}) &\leq \lim_{i,j\to \infty} &&\dist(x_{i},x_{*})+\dist(x_{j},x_{*}) = 0.
   \end{alignat*}
 \end{proof}
-The converse is not always true. There are some Cauchy sequences that have no rational limit. The bisection approximation of \(\sqrt 2\) is one such sequence is an example. I would love to tell you it is Cauchy because it converges---to \(\sqrt 2\). But that is circular reasoning. Instead, I will carefully redefine it and prove it is Cauchy.
+The converse is not always true. There are some Cauchy sequences that have no rational limit, namely the ones that converge to
+irr\colorbox{darkgray}{\color{white}{\fontspec{lmmonolt10-bold}{(\,REDACTED\,)}}}s
+.
 
-\begin{defn}[Bisection approximation to \colorbox{darkgray}{\color{white}{\fontspec{lmmonolt10-bold}{(\,REDACTED\,)}}}]
+\begin{defn}[Binary search approximation to \colorbox{darkgray}{\color{white}{\fontspec{lmmonolt10-bold}{(\,REDACTED\,)}}}]
 
   Let \(I_{0}\define(0,2)\) be the starting interval. Pick \(x_{n}\) to be the midpoint of \(I_{n}\) (in particular, \(x_{0}=1\)). Let \[L_{n}\define I_{n}\cap (-\infty,x_{n})\] be the left half of \(I_{n}\) and
   \[R_{n}\define I_{n}\cap (x_{n},\infty)\] be the right half.
@@ -289,9 +291,9 @@ The converse is not always true. There are some Cauchy sequences that have no ra
   \]
   There is no such rational number.
 \end{proof}
-
+One might say it converges to \colorbox{darkgray}{\color{white}{\fontspec{lmmonolt10-bold}{(\,REDACTED\,)}}}.
 \section{Taming the infinite with equivalence classes}
-Multiple sequences can approximate the same number. We need a way to check this that avoids circular reasoning, again without direct reference to the sequences' limit.
+Multiple sequences can approximate the same number. We need a way to check this that without needing to know about its limit, as some Cauchy sequences \sout{converge to irrational numbers} have no defined limit.
 \begin{defn}[\(\approx\)]\label{cauchy-eq}
   We say \(\paren{n\mapsto x_{n}}\approx\paren{n\mapsto  y_{n}}\) (or briefly \(x_{n}\approx y_{n}\)) whenever
   \[
@@ -326,7 +328,7 @@ The goal is to use \(\approx\) to collect together equivalent approximations int
 \end{proof}
 Now for the buckets:
 \begin{defn}[Equivalence class]
-  If \(n\mapsto x_{n}\) is a cauchy sequence, define its \emph{equivalence class}
+  If \(n\mapsto x_{n}\) is a cauchy sequence, define its \emph{equivalence class} to be the set of all cauchy sequences equivalent to \(n\mapsto x_{n}\):
   \[
     \bracket{n\mapsto x_{n}} \define \set[\big]{n\mapsto y_{n}: \paren{n\mapsto x_{n}}\approx \paren{n\mapsto y_{n}}}.
   \]
@@ -435,7 +437,7 @@ We intuitively interpret the construction of \(\R\) as representing a real numbe
   % \[
   %   \lim_{m\to\infty} \lim_{{i,j\to\infty}} x_{m}^{(i)}-x_{m}^{(j)} =0
   % \]
-  ???
+ to be continued ???
 
 \end{proof}
 \end{document}
