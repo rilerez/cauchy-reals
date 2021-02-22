@@ -89,7 +89,7 @@ In particular, we want approximations that can be made \emph{arbitrarily precise
 \end{defn}
 
 
-\begin{example}[Approximating \(\sqrt 2\) via binary search]
+\begin{example}[Approximating \(\sqrt 2\) via binary search] \label{binary search}
   Binary search is probably the simplest algorithm to approximate \(\sqrt 2\) with arbitrary precision. The idea is to repeatedly bisect an interval containing \(\sqrt 2\) in order to refine our estimate.
 
   To begin, pick an interval \(I_{0}\) containing \(\sqrt 2\), so \(I_{0}=(0,2)\). For our initial estimate, take the midpoint of \(I_{0}\), so \(x_{0}=1\). This cuts \(I_{0}\) into its left half, \(L_{0}=I_{0}\cap (-\infty,x_{0})\), and the right half \(R_{0}=I_{0}\cap (x_{0},\infty)\). Then
@@ -120,7 +120,8 @@ In particular, we want approximations that can be made \emph{arbitrarily precise
       \draw[color=graphblue] (0,-.1)node[below]{\(0\)} -- (0,0);
       \draw[color=graphblue] (1,-.1)node[below]{\(1\)} -- (1,0);
       \draw[color=graphblue] (2,-.1)node[below]{\(2\)} -- (2,0);
-      \draw (0,0) -- (2,0);
+      \draw[gray] (0,0) -- (1,0);
+      \draw (1,0) -- (2,0);
       \fill (1,0)  circle(.5pt) node[above]{\(x_{0}\)};
       \fill (1.5,0)  circle(.5pt) node[above]{\(x_{1}\)};
       \fill (1.414,0)  circle(.5pt) node[below]{\(\sqrt2\)};
@@ -160,30 +161,65 @@ In particular, we want approximations that can be made \emph{arbitrarily precise
   \]
 \end{example}
 
-Generalizing this kind of argument leads to a formal definition for the set of real numbers. However, we must take care to avoid circular reasoning. So far, we found this approximation by assuming that some number called \(\sqrt 2\) exists, is well-defined, and works the way we would expect a number to. We can probably patch up this specific approximation in an ad-hoc way, using additional facts about \(\sqrt 2\). But this will not generalize.
+\section{The plan, the hitch}
+This analysis of the binary search approximation suggests a plan. We can define a real number by its rational approximation. The information we want about \(\sqrt 2\) for example can be extracted from a sufficiently accurate approximation, or even by studying the approximation algorithm itself. This matches the way we carry out calculations with irrational numbers in practice: approximate it with a rational number that is close enough for our needs, like using \(1.414\) for \(\sqrt 2\) or \(3.14159\) for \(\pi\).
+
+But to turn ``represent real numbers by their approximations'' into an exact definition requires care. Bisection is by no means the only algorithm to approximate \(\sqrt 2\). Should we pick one and declare it \emph{the} definition? If so, how do we choose? If not, how do we consider the infinite posibilities a coherent whole?
+
+There is also the problem of circular reasoning. We derived \nameref{binary search} by starting with \(\sqrt 2\) and working backwards; we had to already know, in some sense, what \(\sqrt 2\) was. But we don't---we can't until we have a definition for the real numbers. Sure, for \(\sqrt 2\) in particular we can find a way around that. But what about the other irrational numbers? Will we need to invent an ad-hoc definition for each irrational we stumble upon?
+
+This is no mere formality. We know \(\sqrt 2\) is irrational, but how many other numbers are? Is it common or rare? If you throw a dart at a number line, what is the probability it hits an irrational number? It is impossible to ask these questions in a meaningful way, let alone try to answer them, without a definition of \(\R\).
 
 \section{Avoiding circularity via Cauchy's criterion}
-Our goal is to define a real number as something we can approximate using rational numbers. But how can you tell if you are correctly approximating something that hasn't been defined yet?
-Without knowing what \(\sqrt 2\) is, how can we make sense of \(\abs[]{x_{n}-\sqrt 2}\)?
+To define \(\R\) using rational approximations, we need to distinguish a divergent sequence like
+\[
+  n\mapsto n \textrm{ \ie{} } 0,1,2,3,\dots
+\]
+from an approximation. This is easy to check when a sequence converges to a rational number; just check it gets arbitrarily close to its limit. For example,
 
-We need to know if a sequence of rational numbers looks like an approximation but without needing to know how to take its limit (or even if its limit exists). That is the purpose of the following test:
+\begin{example}
+the sequence
+\[
+  n\mapsto x_{n}= \frac1n
+\]
+approaches \(0\):
+\[
+  \dist(x_{n},0) = \abs{x_{n}-0} = \abs{\frac 1 n}.
+\]
+
+For an error tolerance \(\epsilon\), we want to know when \(\abs{x_{n}} < \epsilon\). And
+\[
+  \frac 1 n < \epsilon
+\]
+exactly when
+\[
+  n < \frac 1 \epsilon.
+\]
+Not only does this tell us exactly how far down the series we need to look to land within any desired error tolerance, but it ensures it is always possible.
+\end{example}
+
+Unfortunately, this style of reasoning will not carry over for sequences that converge to an irrational number, because we can't know what ``converge to an irrational number'' means until after we define \(\R\). We need a test that lets us take a sequence and decide if it ought to converge without referring to its limit at all.
+
 \begin{defn}[Cauchy's criterion]\label{Cauchy's criterion}
   A sequence \(x_{n}\) satisfies Cauchy's criterion (``is Cauchy'') when its elements eventually become arbitrarily close:
   \[
     \lim_{i,j\to\infty} d(x_{i},x_{j})=\lim_{i,j\to \infty} \abs{x_{i}-x_{j}} =0
   \]
 \end{defn}
-
-Certainly, a convergent sequence passes this test:
+A sequence satisfying \nameref{Cauchy's criterion} bunches up within smaller and smaller regions exactly like a convergent sequence would:
 \begin{theorem}
   Every convergent sequence satisfies \nameref{Cauchy's criterion}.
 \end{theorem}
-\begin{proof}
-  Recall the triangle inequality:
+We will need this tool to prove it:
+\begin{lemma}[the triangle inequality]\label{the triangle inequality}
+  Recall that
   \begin{alignat*}{3}
     \dist(x,z)&\leq d(x,y)&&+d(y,z),\\
     \abs{x-z}&\leq \abs{x-y}&&+\abs{y-z}.
   \end{alignat*}
+  The shortest distance between any two points is the straight line between them.
+\end{lemma}
+\begin{proof}
 
   Suppose the sequence \(x_{\blank}\) has limit \(x_{*}\). Then
   \[
@@ -192,17 +228,17 @@ Certainly, a convergent sequence passes this test:
   hence
   \begin{alignat*}{3}
     &\lim_{i,j\to\infty}&&\dist(x_{i},x_{*})+\dist(x_{j},x_{*}) = 0, \\
-    \shortintertext{but}
+    \shortintertext{but by \nameref{the triangle inequality}}
     \dist(x_{i},x_{j}) &\leq &&\dist(x_{i},x_{*}) + \dist(x_{j},x_{*}), \\
-    \lim_{i,j\to \infty} \dist(x_{i},x_{j}) &\leq \lim_{i,j\to \infty} &&\dist(x_{i},x_{*})+\dist(x_{j},x_{*}) = 0
+    \lim_{i,j\to \infty} \dist(x_{i},x_{j}) &\leq \lim_{i,j\to \infty} &&\dist(x_{i},x_{*})+\dist(x_{j},x_{*}) = 0.
   \end{alignat*}
 \end{proof}
 The converse is not always true. There are some Cauchy sequences that have no rational limit. The bisection approximation of \(\sqrt 2\) is one such sequence is an example. I would love to tell you it is Cauchy because it converges---to \(\sqrt 2\). But that is circular reasoning. Instead, I will carefully redefine it and prove it is Cauchy.
 
 \begin{defn}[Bisection approximation to \colorbox{darkgray}{\color{white}{\fontspec{lmmonolt10-bold}{(\,REDACTED\,)}}}]
 
-  Let \(I_{0}\define(0,2)\) be the starting interval. Pick \(x_{n}\) to be the midpoint of \(I_{n}\) (in particular, \(x_{0}=1\)). Let \[L_{n}\define I_{n}\cap (0,x_{n})\] be the left half of \(I_{n}\) and
-  \[R_{n}\define I_{n}\cap (x_{n},2)\] be the right half.
+  Let \(I_{0}\define(0,2)\) be the starting interval. Pick \(x_{n}\) to be the midpoint of \(I_{n}\) (in particular, \(x_{0}=1\)). Let \[L_{n}\define I_{n}\cap (-\infty,x_{n})\] be the left half of \(I_{n}\) and
+  \[R_{n}\define I_{n}\cap (x_{n},\infty)\] be the right half.
   Define \(I_{{n+1}}\) by \sout{choosing the half containing \(\sqrt 2\)}
   \[
     I_{{n+1}} \define
@@ -254,7 +290,7 @@ The converse is not always true. There are some Cauchy sequences that have no ra
   There is no such rational number.
 \end{proof}
 
-\section{Constructing \(\R\) via equivalence classes of Cauchy sequences}
+\section{Taming the infinite with equivalence classes}
 Multiple sequences can approximate the same number. We need a way to check this that avoids circular reasoning, again without direct reference to the sequences' limit.
 \begin{defn}[\(\approx\)]\label{cauchy-eq}
   We say \(\paren{n\mapsto x_{n}}\approx\paren{n\mapsto  y_{n}}\) (or briefly \(x_{n}\approx y_{n}\)) whenever
