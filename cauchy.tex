@@ -164,7 +164,7 @@ In particular, we want approximations that can be made \emph{arbitrarily precise
 \section{The plan, the hitch}
 This analysis of the binary search approximation suggests a plan. We can define a real number by its rational approximation. The information we want about \(\sqrt 2\) for example can be extracted from a sufficiently accurate approximation, or even by studying the approximation algorithm itself. This matches the way we carry out calculations with irrational numbers in practice: approximate it with a rational number that is close enough for our needs, like using \(1.414\) for \(\sqrt 2\) or \(3.14159\) for \(\pi\).
 
-But to turn ``represent real numbers by their approximations'' into an exact definition requires care. Bisection is by no means the only algorithm to approximate \(\sqrt 2\). Should we pick one and declare it \emph{the} definition? If so, how do we choose? If not, how do we consider the infinite posibilities a coherent whole?
+But to turn ``represent real numbers by their approximations'' into an exact definition requires care. Binary search is by no means the only algorithm to approximate \(\sqrt 2\). Should we pick one and declare it \emph{the} definition? If so, how do we choose? If not, how do we consider the infinite posibilities a coherent whole?
 
 There is also the problem of circular reasoning. We derived \nameref{binary search} by starting with \(\sqrt 2\) and working backwards; we had to already know, in some sense, what \(\sqrt 2\) was. But we don't---we can't until we have a definition for the real numbers. Sure, for \(\sqrt 2\) in particular we can find a way around that. But what about the other irrational numbers? Will we need to invent an ad-hoc definition for each irrational we stumble upon?
 
@@ -360,7 +360,7 @@ The basic operations \(+,\times,-,\div,\abs{\cdot}\) extend to \(\R\) similarly:
   \]
 \end{proof}
 
-Now we can define \(\sqrt 2\) by the equivalence class \(\bracket{n\mapsto x_{n}}\) of the sequence \(n\mapsto x_{n}\) found by bisection. We would expect in some sense
+Now we can define \(\sqrt 2\) by the equivalence class \(\bracket{n\mapsto x_{n}}\) of the sequence \(n\mapsto x_{n}\) found by binary search. We would expect in some sense
 \[
   \lim_{{n\to\infty}}x_{n} = \sqrt 2.
 \]
